@@ -1,0 +1,30 @@
+- name: download the ESB
+  get_url: url=http://product-dist.wso2.com/products/enterprise-service-bus/5.0.0/wso2esb-5.0.0.zip dest=/root/wso2esb-5.0.0.zip headers="Referer:http://wso2.com/legacy-products"
+
+- name: unpack the ESB
+  unarchive: src=/root/wso2esb-5.0.0.zip remote_src=True dest=/opt
+
+- name: make a link
+  file: state=link src=/opt/wso2esb-5.0.0 dest=/opt/wso2esb
+
+- name: create a user
+  user: name={{ wso2_esb_user }}
+
+- name: set permissions on a components dir
+  file: state=directory recurse=yes dest=/opt/wso2esb/ owner={{ wso2_esb_user }} group={{ wso2_esb_user }}
+
+- name: put carbon.xml
+  template: src=carbon.xml dest=/opt/wso2esb/repository/conf/carbon.xml backup=yes
+
+- name: download the PostgreSQL driver
+  get_url: url=https://jdbc.postgresql.org/download/postgresql-42.1.1.jar dest=/opt/wso2esb/repository/components/lib/
+
+- name: put master-datasources.xml
+  template: src=master-datasources.xml dest=/opt/wso2esb/repository/conf/datasources/master-datasources.xml backup=yes
+
+- name: put systemd unit file to its destination
+  template: src=wso2-esb.service dest=/etc/systemd/system/wso2-esb.service owner=root group=root mode=0644
+  notify: systemctl daemon-reload
+
+- name: enable wso2-esb service
+  service: name=wso2-esb enabled=yes state=started

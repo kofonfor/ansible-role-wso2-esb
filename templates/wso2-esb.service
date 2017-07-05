@@ -1,0 +1,16 @@
+[Unit]
+Description=WSO2 ESB Service
+
+[Service]
+Type=simple
+User={{ wso2_esb_user }}
+Group={{ wso2_esb_user }}
+Environment="CARBON_HOME=/opt/wso2esb"
+Environment="JAVA_HOME=/usr/java/latest"
+ExecStart=/opt/wso2esb/bin/wso2server.sh -Dsetup
+StandardOutput=journal
+StandardError=journal
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
