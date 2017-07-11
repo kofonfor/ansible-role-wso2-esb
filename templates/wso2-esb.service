@@ -5,9 +5,9 @@ Description=WSO2 ESB Service
 Type=simple
 User={{ wso2_esb_user }}
 Group={{ wso2_esb_user }}
-Environment="CARBON_HOME=/opt/wso2esb"
+Environment="CARBON_HOME=/opt/wso2esb-{{ subrole }}"
 Environment="JAVA_HOME=/usr/java/latest"
-ExecStart=/opt/wso2esb/bin/wso2server.sh -Dsetup
+ExecStart=/opt/wso2esb-{{ subrole }}/bin/wso2server.sh -Dsetup {% if subrole != "manager" %} -DworkerNode=true {% endif %}  
 StandardOutput=journal
 StandardError=journal
 Restart=always
