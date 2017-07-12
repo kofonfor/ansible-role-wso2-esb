@@ -15,7 +15,7 @@
                 <configuration>
                     <url>jdbc:postgresql://localhost:5432/wso2esb_loc_{{ dbsubrole }}</url>
                     <username>wso2esb_loc_{{ dbsubrole }}</username>
-                    <password>{{ wso2esb_locdb_postgresql_password }}{{ dbsubrole }}</password>
+                    <password>{{ wso2_locdb_postgresql_password }}{{ dbsubrole }}</password>
                     <driverClassName>org.postgresql.Driver</driverClassName>
                     <maxActive>80</maxActive>
                     <maxWait>60000</maxWait>
@@ -37,7 +37,7 @@
                 <configuration>
                     <url>jdbc:postgresql://localhost:5432/wso2esb_regdb</url>
                     <username>wso2esb_regdb</username>
-                    <password>{{ wso2esb_registrydb_postgresql_password }}</password>
+                    <password>{{ wso2_registrydb_postgresql_password }}</password>
                     <driverClassName>org.postgresql.Driver</driverClassName>
                     <maxActive>80</maxActive>
                     <maxWait>60000</maxWait>
@@ -75,30 +75,6 @@
 
 
 
-	    <!--
-        <datasource>
-            <name>WSO2_CARBON_DB</name>
-            <description>The datasource used for registry and user manager</description>
-            <jndiConfig>
-                <name>jdbc/WSO2CarbonDB</name>
-            </jndiConfig>
-	    <definition type="RDBMS">
-                <configuration>
-                    <url>jdbc:postgresql://localhost:5432/wso2esb</url>
-                    <username>wso2esb</username>
-                    <password>{{ wso2esb_postgresql_password }}</password>
-                    <driverClassName>org.postgresql.Driver</driverClassName>
-                    <maxActive>80</maxActive>
-                    <maxWait>60000</maxWait>
-                    <minIdle>5</minIdle>
-                    <testOnBorrow>true</testOnBorrow>
-                    <validationQuery>SELECT 1</validationQuery>
-                    <validationInterval>30000</validationInterval>
-                    <defaultAutoCommit>true</defaultAutoCommit>
-                </configuration>
-            </definition>
-	</datasource>
--->
 
         <!-- For an explanation of the properties, see: http://people.apache.org/~fhanik/jdbc-pool/jdbc-pool.html -->
         <!--datasource>
