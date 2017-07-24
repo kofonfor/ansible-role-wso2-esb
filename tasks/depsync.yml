@@ -1,0 +1,14 @@
+- name: install rsync
+  yum: name=rsync
+
+- name: create /var/lock/esb
+  file: state=directory dest=/var/lock/esb owner=wso2_esb
+
+- name: put /home/wso2_esb/rsync-for-carbon-depsync.sh
+  template: src=rsync-for-carbon-depsync.sh dest=/home/wso2_esb/rsync-for-carbon-depsync.sh mode=0755
+
+- name: put workers-list.txt
+  template: src=workers-list.txt dest=/home/wso2_esb/workers-list.txt
+
+- name: add a cron job
+  template: src=wso2_esb dest=/etc/cron.d/wso2_esb

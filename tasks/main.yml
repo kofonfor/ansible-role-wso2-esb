@@ -37,3 +37,6 @@
 
 - name: enable wso2-esb service
   service: name=wso2-esb-{{ subrole }} enabled=yes state=started
+
+- include: depsync.yml
+  when: subrole == "manager"
