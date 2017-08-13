@@ -31,6 +31,9 @@
 - name: put axis2.xml
   template: src=axis2.xml dest=/opt/wso2esb-{{ subrole }}/repository/conf/axis2/axis2.xml backup=yes
 
+- name: install PostgreSQL client
+  yum: name=postgresql
+
 - name: put systemd unit file to its destination
   template: src=wso2-esb.service dest=/etc/systemd/system/wso2-esb-{{ subrole }}.service owner=root group=root mode=0644
   notify: systemctl daemon-reload

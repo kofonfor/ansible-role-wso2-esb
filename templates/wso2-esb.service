@@ -6,12 +6,14 @@ After=haproxy.service
 Type=simple
 User={{ wso2_esb_user }}
 Group={{ wso2_esb_user }}
+PermissionsStartOnly=true
 Environment="CARBON_HOME=/opt/wso2esb-{{ subrole }}"
 Environment="JAVA_HOME=/usr/java/latest"
+Environment="PGPASSWORD={{ wso2esb_userdb_postgresql_password }}"
 {% if subrole == "manager" %}
 ExecStartPre=/bin/bash -c 'mkdir -p /var/lock/esb && chown wso2_esb:wso2_esb /var/lock/esb'
 {% endif %}
-ExecStart=/opt/wso2esb-{{ subrole }}/bin/wso2server.sh -Dsetup {% if subrole != "manager" %} -DworkerNode=true {% endif %}  
+ExecStart=/bin/bash -c "for i in `seq 1 120`; do psql -h 127.0.0.1 -p 5432 -d wso2esb_udb -U wso2esb_udb -c 'SELECT 1'; if [ $? -ne 0 ]; then sleep 1; continue; fi; break; done; /opt/wso2esb-{{ subrole }}/bin/wso2server.sh -Dsetup {% if subrole != "manager" %} -DworkerNode=true {% endif %}"   
 StandardOutput=journal
 StandardError=journal
 Restart=always
